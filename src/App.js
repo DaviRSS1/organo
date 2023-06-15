@@ -4,6 +4,7 @@ import Banner from "./componentes/Banner";
 import Formulario from "./componentes/Formulario";
 import Time from "./componentes/Time";
 import Rodape from "./componentes/Rodape";
+import Organizacao from "./componentes/Organizacao";
 
 function App() {
   const [times, setTimes] = useState([
@@ -52,6 +53,14 @@ function App() {
       return colaborador
     }))
   }
+
+  const[form, setForm] = useState(true)
+  
+  function exibirForm() {
+    if (form === true){
+      setForm(false)
+    } else {setForm(true)}
+}
   
   function cadastrarTime(novoTime){
     setTimes([...times, { ...novoTime, id: uuidv4()}])
@@ -74,16 +83,17 @@ function App() {
     }))
   }
 
-  console.log(colaboradores)
-
   return (
     <div className="App"> 
       <Banner />
-      <Formulario 
-        times={times.map(time => time.nome)} 
-        aoColaboradorCadastrado = {colaborador => aoNovoColaboradorAdicionado(colaborador)}
-        cadastrarTime={cadastrarTime}
-      />
+      {form &&(
+        <Formulario 
+          times={times.map(time => time.nome)} 
+          aoColaboradorCadastrado = {colaborador => aoNovoColaboradorAdicionado(colaborador)}
+          cadastrarTime={cadastrarTime}
+        />
+      )}
+      <Organizacao exibirForm={exibirForm}/>
       {times.map(time => 
         <Time 
           aoFavoritar={resolverFavorito}
